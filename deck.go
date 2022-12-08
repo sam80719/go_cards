@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
+
 	//"io/ioutil"
 	"os"
 	"strings" // 引用 pkg strings
@@ -47,12 +50,26 @@ func (d deck) saveToFile(fileName string) error {
 func newDeckFromFile(fileName string) deck {
 	bs, err := os.ReadFile(fileName)
 	if err != nil { // handle error
-		// option #1 - log the error and return call to newDeck() => 在這裡不合用，因為在從新拿取card 會造成 有重複的牌
-		// option #2 - log the error and entirely quit the program
 		fmt.Println("err: ", err)
 		os.Exit(1) // quit program
 	}
-	// string(bs) // ce of Spades,Two of Spades,Three of Spades....
 	s := strings.Split(string(bs), ",")
 	return deck(s)
+}
+
+func (d deck) shuffle() {
+	//// 教程的程式碼
+	//source := rand.NewSource(time.Now().UnixNano())
+	//r := rand.New(source)
+	//for i := range d {
+	//	newPosition := r.Intn(len(d) - 1)
+	//	d[i], d[newPosition] = d[newPosition], d[i]
+	//}
+
+	// 較新的版本有rand,Seed
+	for i := range d {
+		rand.Seed(time.Now().UnixNano())
+		newPosition := rand.Intn(len(d) - 1)
+		d[i], d[newPosition] = d[newPosition], d[i] // swap
+	}
 }
