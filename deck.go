@@ -3,15 +3,11 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"time"
-
-	//"io/ioutil"
 	"os"
-	"strings" // 引用 pkg strings
+	"strings"
+	"time"
 )
 
-// creat a new type of 'deck'
-// which is a slice of strings
 type deck []string
 
 func newDeck() deck {
@@ -58,14 +54,6 @@ func newDeckFromFile(fileName string) deck {
 }
 
 func (d deck) shuffle() {
-	//// 教程的程式碼
-	//source := rand.NewSource(time.Now().UnixNano())
-	//r := rand.New(source)
-	//for i := range d {
-	//	newPosition := r.Intn(len(d) - 1)
-	//	d[i], d[newPosition] = d[newPosition], d[i]
-	//}
-
 	// 較新的版本有rand,Seed
 	for i := range d {
 		rand.Seed(time.Now().UnixNano())
